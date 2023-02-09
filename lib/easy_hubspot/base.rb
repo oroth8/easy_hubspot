@@ -1,9 +1,9 @@
 require 'httparty'
-require 'pry'
 require 'json'
 require 'uri'
 
 module EasyHubspot
+  # class EasyHubspot::Base
   class Base
     include HTTParty
 
@@ -13,7 +13,7 @@ module EasyHubspot
 
     attr_accessor :access_token
 
-    BASE_URI = 'https://api.hubapi.com'
+    BASE_URI = 'https://api.hubapi.com'.freeze
 
     def headers
       { "Content-Type": 'application/json',

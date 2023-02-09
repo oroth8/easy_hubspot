@@ -1,4 +1,5 @@
 module EasyHubspot
+  # class EasyHubspot::Contact
   class Contact < Base
     CONTACT_ENDPOINT = 'crm/v3/objects/contacts'.freeze
 
