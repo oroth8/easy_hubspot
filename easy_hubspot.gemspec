@@ -32,11 +32,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # runtime dependencies
-  spec.add_runtime_dependency 'json', '~> 2.6.0'
+  spec.add_runtime_dependency 'json', '~> 2.6.3'
   spec.add_runtime_dependency 'uri', '~> 0.12.0'
 
   # dependencies
-  spec.add_dependency 'httparty', '~> 0.17.3'
+  spec.add_dependency 'httparty', '~> 0.21.0'
 
   # development dependencies
   spec.add_development_dependency 'bundler', '~> 2.0'
