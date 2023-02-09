@@ -1,6 +1,7 @@
-require "httparty"
-require "pry"
-require "json"
+require 'httparty'
+require 'pry'
+require 'json'
+require 'uri'
 
 module EasyHubspot
   class Base
@@ -21,6 +22,10 @@ module EasyHubspot
 
     def parse_response(response)
       JSON.parse response, symbolize_names: true
+    end
+
+    def email?(string)
+      URI::MailTo::EMAIL_REGEXP.match?(string)
     end
   end
 end
