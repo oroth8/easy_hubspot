@@ -1,4 +1,30 @@
 # frozen_string_literal: true
 
-require_relative "easy_hubspot/version"
-require_relative "easy_hubspot/base"
+require 'easy_hubspot/base'
+require 'easy_hubspot/client'
+require 'easy_hubspot/contact'
+require 'easy_hubspot/version'
+
+require 'httparty'
+require 'json'
+require 'uri'
+
+module EasyHubspot
+  class << self
+    attr_accessor :configuration
+  end
+
+  def self.config
+    self.configuration ||= Configuration.new
+    yield(configuration)
+  end
+
+  class Configuration
+    attr_accessor :access_token, :base_url
+
+    def initialize
+      @access_token = ''
+      @base_url = 'https://api.hubapi.com'
+    end
+  end
+end

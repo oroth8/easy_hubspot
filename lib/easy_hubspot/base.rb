@@ -1,31 +1,19 @@
-require 'httparty'
-require 'json'
-require 'uri'
-
 module EasyHubspot
   # class EasyHubspot::Base
   class Base
-    include HTTParty
+    class << self
+      def headers
+        { "Content-Type": 'application/json',
+          "Authorization": "Bearer #{EasyHubspot.configuration.access_token}" }
+      end
 
-    def initialize(access_token:)
-      @access_token = access_token
-    end
+      def email?(string)
+        URI::MailTo::EMAIL_REGEXP.match?(string)
+      end
 
-    attr_accessor :access_token
-
-    BASE_URI = 'https://api.hubapi.com'.freeze
-
-    def headers
-      { "Content-Type": 'application/json',
-        "Authorization": "Bearer #{access_token}" }
-    end
-
-    def parse_response(response)
-      JSON.parse response, symbolize_names: true
-    end
-
-    def email?(string)
-      URI::MailTo::EMAIL_REGEXP.match?(string)
+      def merge_path(path)
+        EasyHubspot.configuration.base_url + path
+      end
     end
   end
 end
