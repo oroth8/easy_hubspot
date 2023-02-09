@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe EasyHubspot::Contact do
@@ -21,7 +23,7 @@ RSpec.describe EasyHubspot::Contact do
           .to_return(status: 200, body: load_json('contact'), headers: {})
       end
 
-      let(:response) { EasyHubspot::Contact.get_contact('701') }
+      let(:response) { described_class.get_contact('701') }
 
       it 'returns a contact' do
         expect(response[:id]).to eq '701'
@@ -42,7 +44,7 @@ RSpec.describe EasyHubspot::Contact do
           .to_return(status: 200, body: load_json('contact'), headers: {})
       end
 
-      let(:response) { EasyHubspot::Contact.get_contact('amber_becker@quigley.io') }
+      let(:response) { described_class.get_contact('amber_becker@quigley.io') }
 
       it 'returns a contact' do
         expect(response[:id]).to eq '701'
@@ -63,7 +65,8 @@ RSpec.describe EasyHubspot::Contact do
           )
           .to_return(status: 200, body: load_json('contacts'), headers: {})
       end
-      let(:response) { EasyHubspot::Contact.get_contacts }
+
+      let(:response) { described_class.get_contacts }
 
       it 'returns a list of contacts' do
         results = response[:results]
@@ -87,7 +90,7 @@ RSpec.describe EasyHubspot::Contact do
     let(:body) do
       { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
     end
-    let(:response) { EasyHubspot::Contact.create_contact(body) }
+    let(:response) { described_class.create_contact(body) }
 
     it 'returns a contact' do
       expect(response[:id]).to eq '851'
@@ -113,7 +116,7 @@ RSpec.describe EasyHubspot::Contact do
       let(:body) do
         { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
       end
-      let(:response) { EasyHubspot::Contact.update_contact('851', body) }
+      let(:response) { described_class.update_contact('851', body) }
 
       it 'returns a contact' do
         expect(response[:id]).to eq '851'
@@ -122,6 +125,7 @@ RSpec.describe EasyHubspot::Contact do
         expect(response[:properties][:lastname]).to eq 'Smith'
       end
     end
+
     context 'when contact is found using email' do
       before do
         stub_request(:patch, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/example@gmail.com?idProperty=email')
@@ -137,7 +141,7 @@ RSpec.describe EasyHubspot::Contact do
       let(:body) do
         { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
       end
-      let(:response) { EasyHubspot::Contact.update_contact('example@gmail.com', body) }
+      let(:response) { described_class.update_contact('example@gmail.com', body) }
 
       it 'returns a contact' do
         expect(response[:id]).to eq '851'
@@ -150,25 +154,23 @@ RSpec.describe EasyHubspot::Contact do
 
   context 'delete_contact' do
     context 'when contact is found using contact_id' do
-        before do
-          stub_request(:delete, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/851')
-            .with(
-              headers: {
-                'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-                'Content-Type' => 'application/json'
-              }
-            )
-            .to_return(status: 204, headers: {})
-        end
-  
-        let(:response) { EasyHubspot::Contact.delete_contact('851') }
-  
-        it 'returns no content' do
-          expect(response).to eq nil
-        end
+      before do
+        stub_request(:delete, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/851')
+          .with(
+            headers: {
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json'
+            }
+          )
+          .to_return(status: 204, headers: {})
       end
 
+      let(:response) { described_class.delete_contact('851') }
 
+      it 'returns no content' do
+        expect(response).to eq nil
+      end
+    end
 
     context 'when contact is found using email' do
       before do
@@ -182,7 +184,7 @@ RSpec.describe EasyHubspot::Contact do
           .to_return(status: 204, headers: {})
       end
 
-      let(:response) { EasyHubspot::Contact.delete_contact('example@gmail.com') }
+      let(:response) { described_class.delete_contact('example@gmail.com') }
 
       it 'returns no content' do
         expect(response).to eq nil

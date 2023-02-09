@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module EasyHubspot
   # class EasyHubspot::Contact
   class Contact < EasyHubspot::Base
     class << self
-      CONTACT_ENDPOINT = 'crm/v3/objects/contacts'.freeze
+      CONTACT_ENDPOINT = 'crm/v3/objects/contacts'
 
       def get_contact(contact_id)
         path = merge_path(determine_endpoint(contact_id))

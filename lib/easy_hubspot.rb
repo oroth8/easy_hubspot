@@ -9,6 +9,7 @@ require 'httparty'
 require 'json'
 require 'uri'
 
+# EasyHubspot
 module EasyHubspot
   class << self
     attr_accessor :configuration
@@ -19,6 +20,7 @@ module EasyHubspot
     yield(configuration)
   end
 
+  # EasyHubspot::Configuration
   class Configuration
     attr_accessor :access_token, :base_url
 
