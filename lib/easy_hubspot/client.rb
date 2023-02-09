@@ -44,6 +44,8 @@ module EasyHubspot
       private
 
       def parse_response(res)
+        return if res.body.nil?
+
         JSON.parse res, symbolize_names: true
       end
     end

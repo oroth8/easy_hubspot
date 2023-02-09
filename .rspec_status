@@ -1,7 +1,12 @@
 example_id                                   | status | run_time        |
 -------------------------------------------- | ------ | --------------- |
-./spec/easy_hubspot/contact_spec.rb[1:1:1:1] | passed | 0.015 seconds   |
-./spec/easy_hubspot/contact_spec.rb[1:1:2:1] | passed | 0.00086 seconds |
-./spec/easy_hubspot/contact_spec.rb[1:2:1:1] | passed | 0.00075 seconds |
+./spec/easy_hubspot/contact_spec.rb[1:1:1:1] | passed | 0.01577 seconds |
+./spec/easy_hubspot/contact_spec.rb[1:1:2:1] | passed | 0.00084 seconds |
+./spec/easy_hubspot/contact_spec.rb[1:2:1:1] | passed | 0.00077 seconds |
+./spec/easy_hubspot/contact_spec.rb[1:3:1]   | passed | 0.00071 seconds |
+./spec/easy_hubspot/contact_spec.rb[1:4:1:1] | passed | 0.00083 seconds |
+./spec/easy_hubspot/contact_spec.rb[1:4:2:1] | passed | 0.0008 seconds  |
+./spec/easy_hubspot/contact_spec.rb[1:5:1:1] | passed | 0.00034 seconds |
+./spec/easy_hubspot/contact_spec.rb[1:5:2:1] | passed | 0.00038 seconds |
 ./spec/easy_hubspot_spec.rb[1:1:1]           | passed | 0.00008 seconds |
-./spec/easy_hubspot_spec.rb[1:1:2]           | passed | 0.00005 seconds |
+./spec/easy_hubspot_spec.rb[1:1:2]           | passed | 0.00004 seconds |
