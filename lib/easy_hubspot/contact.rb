@@ -28,8 +28,7 @@ module EasyHubspot
       end
 
       def get_associated_contacts(contact_id, object_type, object_id, association_id)
-        return ArgumentError("contact_id must be an ID not an email") if email?(contact_id.to_s)
-        
+        # TODO: Error handling arguments
         path = merge_path("#{CONTACT_ENDPOINT}/#{contact_id}/associations/#{object_type}/#{object_id}/#{association_id}")
         Client.do_get(path, headers)
       end

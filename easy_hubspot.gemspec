@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'An easier way to integrate with the Hubspot API'
   spec.description = 'This gem is designed to make it easier to integrate with the Hubspot API'
-  # spec.homepage = "Put your gem's website or public repo URL here."
+  spec.homepage = "https://github.com/oroth8/easy-hubspot"
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
 
