@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
 
   # development dependencies
   spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'capybara', '~> 2.7'
+  spec.add_development_dependency 'capybara', '~> 3.36'
   spec.add_development_dependency 'generator_spec', '~> 0.9.4'
   spec.add_development_dependency 'pry', '~> 0.13.1'
   spec.add_development_dependency 'rake', '~> 13.0'
