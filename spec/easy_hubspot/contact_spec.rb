@@ -216,4 +216,58 @@ RSpec.describe EasyHubspot::Contact do
       end
     end
   end
+
+  context 'when trying to create a duplicate contact' do
+    before do
+      stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/contacts')
+        .with(
+          body: 'properties%5Bemail%5D=example%40gmail.com&properties%5Bfirstname%5D=John&properties%5Blastname%5D=Smith',
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Ruby'
+          }
+        )
+        .to_return(status: 400, body: load_json('duplicate_contact'), headers: {})
+    end
+
+    let(:body) do
+      { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
+    end
+
+    it 'raises a HubspotApiError' do
+      expect do
+        described_class.create_contact(body)
+      end.to raise_error(EasyHubspot::HubspotApiError, 'Contact already exists. Existing ID: 801')
+    end
+  end
+
+  context "when trying to update a contact that doesn't exist" do
+    before do
+      stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/contacts/1234')
+        .with(
+          body: 'properties%5Bemail%5D=example%40gmail.com&properties%5Bfirstname%5D=John&properties%5Blastname%5D=Smith',
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Ruby'
+          }
+        )
+        .to_return(status: 400, body: load_json('contact_not_found'), headers: {})
+    end
+
+    let(:body) do
+      { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
+    end
+
+    it 'raises a HubspotApiError' do
+      expect do
+        described_class.update_contact('1234', body)
+      end.to raise_error(EasyHubspot::HubspotApiError, 'resource not found')
+    end
+  end
 end
