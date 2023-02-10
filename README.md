@@ -1,4 +1,6 @@
 # EasyHubspot
+![version](https://img.shields.io/badge/version-0.1.6-green)
+[![CI](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml/badge.svg)](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml)
 
 Work in progress: This gem is not ready for production use. 
 
