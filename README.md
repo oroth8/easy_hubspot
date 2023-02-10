@@ -1,5 +1,5 @@
 # EasyHubspot
-![version](https://img.shields.io/badge/version-0.1.7-green)
+![version](https://img.shields.io/badge/version-0.1.8-green)
 [![CI](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml/badge.svg)](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/oroth8/easy_hubspot/badges/gpa.svg)](https://codeclimate.com/github/oroth8/easy_hubspot)
 
@@ -55,6 +55,20 @@ EasyHubspot::Contact.get_contacts
 EasyHubspot::Contact.delete_contact(123)
 # or 
 EasyHubspot::Contact.delete_contact('test@gmail.com')
+```
+
+## Error Handling
+
+```ruby
+def call
+  begin
+    EasyHubspot::Contact.create_contact(body)
+  rescue EasyHubspot::HubspotApiError => e
+    # handle error code
+    # e.message = 'Contact already exists. Existing ID: 801'
+    Rails.logger.info(e.message)
+  end
+end
 ```
 
 ## Development
