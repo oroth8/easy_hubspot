@@ -35,7 +35,7 @@ rails g easy_hubspot:install
 EasyHubspot::Contact.create_contact(properties: { email: '', firstname: '', lastname: '' , etc: ''})
 
 # Update a contact
-EasyHubspot::Contact.update_contact(contact_id: 123, properties: { email: '', firstname: '', lastname: '' , etc: ''})
+EasyHubspot::Contact.update_contact(123, properties: { email: '', firstname: '', lastname: '' , etc: ''})
 
 # Get a contact
 EasyHubspot::Contact.get_contact(123)
