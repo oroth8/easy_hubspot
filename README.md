@@ -1,11 +1,12 @@
 # EasyHubspot
-![version](https://img.shields.io/badge/version-0.1.6-green)
+![version](https://img.shields.io/badge/version-0.1.7-green)
 [![CI](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml/badge.svg)](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/oroth8/easy_hubspot/badges/gpa.svg)](https://codeclimate.com/github/oroth8/easy_hubspot)
 
-Work in progress: This gem is not ready for production use. 
+This is a lightweight wrapper for the Hubspot API. It is designed to be easy to use and to provide a simple setup for the most common use cases.
 
-This is a lightweight wrapper for the Hubspot API. It is designed to be easy to use and to provide a simple interface for the most common use cases.
+This gem utilizes the `v3` hubspot-api
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -32,6 +33,8 @@ rails g easy_hubspot:install
 ```
 
 ### Contacts
+
+Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/contacts)
 
 ```ruby
 # Create a contact
