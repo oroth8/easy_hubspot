@@ -7,6 +7,13 @@ This is a lightweight wrapper for the Hubspot API. It is designed to be easy to 
 
 This gem utilizes the `v3` hubspot-api
 
+### Dependencies
+- [gem "httparty", "~> 0.21.0"](https://github.com/jnunemaker/httparty)
+
+### Compatibility
+- `ruby >= 2.6.10`
+- `rails >= 6.0`
+
 ## Installation
 
 Add this line to your application's Gemfile:
