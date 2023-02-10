@@ -18,10 +18,6 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
-
-  # config.before(:each) do
-  #   stub_request(:any, /api.hubapi.com/).to_rack(FakeHubspot)
-  # end
 end
 
 WebMock.disable_net_connect!(allow_localhost: true)

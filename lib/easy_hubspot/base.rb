@@ -12,10 +12,6 @@ module EasyHubspot
       def email?(string)
         URI::MailTo::EMAIL_REGEXP.match?(string)
       end
-
-      def merge_path(path)
-        EasyHubspot.configuration.base_url + path
-      end
     end
   end
 end

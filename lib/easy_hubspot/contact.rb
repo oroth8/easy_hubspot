@@ -7,39 +7,32 @@ module EasyHubspot
       CONTACT_ENDPOINT = 'crm/v3/objects/contacts'
 
       def get_contact(contact_id)
-        path = merge_path(determine_endpoint(contact_id))
-        Client.do_get(path, headers)
+        Client.do_get(determine_endpoint(contact_id), headers)
       end
 
       def get_contacts
-        Client.do_get(contact_path, headers)
+        Client.do_get(CONTACT_ENDPOINT, headers)
       end
 
       def create_contact(body)
-        Client.do_post(contact_path, body, headers)
+        Client.do_post(CONTACT_ENDPOINT, body, headers)
       end
 
       def update_contact(contact_id, body)
-        path = merge_path(determine_endpoint(contact_id))
-        Client.do_patch(path, body, headers)
+        Client.do_patch(determine_endpoint(contact_id), body, headers)
       end
 
       def delete_contact(contact_id)
-        path = merge_path(determine_endpoint(contact_id))
-        Client.do_delete(path, headers)
+        Client.do_delete(determine_endpoint(contact_id), headers)
       end
 
-      def get_associated_contacts(contact_id, object_type, object_id, association_id)
-        # TODO: Error handling arguments
-        path = merge_path("#{CONTACT_ENDPOINT}/#{contact_id}/associations/#{object_type}/#{object_id}/#{association_id}")
-        Client.do_get(path, headers)
-      end
+    # def get_associated_contacts(contact_id, object_type, object_id, association_id)
+    #   # TODO: Error handling arguments
+    #   path = merge_path("#{CONTACT_ENDPOINT}/#{contact_id}/associations/#{object_type}/#{object_id}/#{association_id}")
+    #   Client.do_get(path, headers)
+    # end
 
     private
-
-      def contact_path
-        merge_path(CONTACT_ENDPOINT)
-      end
 
       def determine_endpoint(value)
         email_endpoint = "#{CONTACT_ENDPOINT}/#{value}?idProperty=email"

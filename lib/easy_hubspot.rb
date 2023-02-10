@@ -26,7 +26,7 @@ module EasyHubspot
 
     def initialize
       @access_token = ''
-      @base_url = 'https://api.hubapi.com'
+      @base_url = 'https://api.hubapi.com/'
     end
   end
 end

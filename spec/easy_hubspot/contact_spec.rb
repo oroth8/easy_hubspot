@@ -12,12 +12,14 @@ RSpec.describe EasyHubspot::Contact do
   context 'get_contact' do
     context 'when contact is found using contact_id' do
       before do
-        contact_id = '701'
-        stub_request(:get, "https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/#{contact_id}")
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts/701')
           .with(
             headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
               'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json'
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
             }
           )
           .to_return(status: 200, body: load_json('contact'), headers: {})
@@ -33,12 +35,14 @@ RSpec.describe EasyHubspot::Contact do
 
     context 'when contact is found using email' do
       before do
-        contact_email = 'amber_becker@quigley.io'
-        stub_request(:get, "https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/#{contact_email}?idProperty=email")
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts/amber_becker@quigley.io?idProperty=email')
           .with(
             headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
               'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json'
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
             }
           )
           .to_return(status: 200, body: load_json('contact'), headers: {})
@@ -56,11 +60,14 @@ RSpec.describe EasyHubspot::Contact do
   context 'get_contacts' do
     context 'when contacts are found' do
       before do
-        stub_request(:get, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts')
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts')
           .with(
             headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
               'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json'
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
             }
           )
           .to_return(status: 200, body: load_json('contacts'), headers: {})
@@ -77,11 +84,15 @@ RSpec.describe EasyHubspot::Contact do
 
   context 'create_contact' do
     before do
-      stub_request(:post, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts')
+      stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/contacts')
         .with(
+          body: 'properties%5Bemail%5D=example%40gmail.com&properties%5Bfirstname%5D=John&properties%5Blastname%5D=Smith',
           headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
             'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Ruby'
           }
         )
         .to_return(status: 201, body: load_json('create_contact'), headers: {})
@@ -103,11 +114,15 @@ RSpec.describe EasyHubspot::Contact do
   context 'update_contact' do
     context 'when contact is found using contact_id' do
       before do
-        stub_request(:patch, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/851')
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/contacts/851')
           .with(
+            body: 'properties%5Bemail%5D=example%40gmail.com&properties%5Bfirstname%5D=John&properties%5Blastname%5D=Smith',
             headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
               'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json'
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
             }
           )
           .to_return(status: 200, body: load_json('update_contact'), headers: {})
@@ -128,11 +143,15 @@ RSpec.describe EasyHubspot::Contact do
 
     context 'when contact is found using email' do
       before do
-        stub_request(:patch, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/example@gmail.com?idProperty=email')
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/contacts/example@gmail.com?idProperty=email')
           .with(
+            body: 'properties%5Bemail%5D=example%40gmail.com&properties%5Bfirstname%5D=John&properties%5Blastname%5D=Smith',
             headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
               'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json'
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
             }
           )
           .to_return(status: 200, body: load_json('update_contact'), headers: {})
@@ -155,14 +174,17 @@ RSpec.describe EasyHubspot::Contact do
   context 'delete_contact' do
     context 'when contact is found using contact_id' do
       before do
-        stub_request(:delete, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/851')
+        stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/contacts/851')
           .with(
             headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
               'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json'
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 204, headers: {})
+          .to_return(status: 204, body: '', headers: {})
       end
 
       let(:response) { described_class.delete_contact('851') }
@@ -174,14 +196,17 @@ RSpec.describe EasyHubspot::Contact do
 
     context 'when contact is found using email' do
       before do
-        stub_request(:delete, 'https://api.hubapi.comhttps//api.hubapi.comcrm/v3/objects/contacts/example@gmail.com?idProperty=email')
+        stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/contacts/example@gmail.com?idProperty=email')
           .with(
             headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
               'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json'
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 204, headers: {})
+          .to_return(status: 204, body: '', headers: {})
       end
 
       let(:response) { described_class.delete_contact('example@gmail.com') }
