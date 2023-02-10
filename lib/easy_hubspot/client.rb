@@ -33,7 +33,10 @@ module EasyHubspot
       def parse_response(res)
         return if res.body.nil?
 
-        JSON.parse res, symbolize_names: true
+        parsed_res = JSON.parse res, symbolize_names: true
+        raise EasyHubspot::HubspotApiError, parsed_res[:message] if parsed_res[:status] == 'error'
+
+        parsed_res
       end
     end
   end
