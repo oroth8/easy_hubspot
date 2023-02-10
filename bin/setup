@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
-set -euo pipefail
-IFS=$'\n\t'
-set -vx
+#!/usr/bin/env ruby
+# frozen_string_literal: true
 
-bundle install
+require 'bundler/setup'
+require 'easy_hubspot'
 
-# Do any other automated setup that you need to do here
+require 'irb'
+IRB.start

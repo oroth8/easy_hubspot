@@ -4,6 +4,7 @@ require 'easy_hubspot/base'
 require 'easy_hubspot/client'
 require 'easy_hubspot/contact'
 require 'easy_hubspot/version'
+require 'easy_hubspot/generators/install_generator'
 
 require 'httparty'
 require 'json'
