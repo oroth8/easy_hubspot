@@ -9,7 +9,7 @@ RSpec.describe EasyHubspot::Contact do
     end
   end
 
-  context 'get_contact' do
+  describe 'get_contact' do
     context 'when contact is found using contact_id' do
       before do
         stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts/701')
@@ -57,7 +57,7 @@ RSpec.describe EasyHubspot::Contact do
     end
   end
 
-  context 'get_contacts' do
+  describe 'get_contacts' do
     context 'when contacts are found' do
       before do
         stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts')
@@ -82,7 +82,7 @@ RSpec.describe EasyHubspot::Contact do
     end
   end
 
-  context 'create_contact' do
+  describe 'create_contact' do
     before do
       stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/contacts')
         .with(
@@ -111,7 +111,7 @@ RSpec.describe EasyHubspot::Contact do
     end
   end
 
-  context 'update_contact' do
+  describe 'update_contact' do
     context 'when contact is found using contact_id' do
       before do
         stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/contacts/851')
@@ -171,7 +171,7 @@ RSpec.describe EasyHubspot::Contact do
     end
   end
 
-  context 'delete_contact' do
+  describe 'delete_contact' do
     context 'when contact is found using contact_id' do
       before do
         stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/contacts/851')
@@ -268,6 +268,84 @@ RSpec.describe EasyHubspot::Contact do
       expect do
         described_class.update_contact('1234', body)
       end.to raise_error(EasyHubspot::HubspotApiError, 'resource not found')
+    end
+  end
+
+  describe 'update_or_create_contact' do
+    context 'when contact is found using contact_id' do
+      let!(:email) { 'amber_becker@quigley.io' }
+      let(:response) { described_class.update_or_create_contact(email, body) }
+      let!(:body) do
+        { properties: { email: email, firstname: 'Amber', lastname: 'Quigley', hs_content_membership_status: 'inactive' } }
+      end
+
+      before do
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts/amber_becker@quigley.io?idProperty=email')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_json('contact'), headers: {})
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/contacts/amber_becker@quigley.io?idProperty=email')
+          .with(
+            body: 'properties%5Bemail%5D=amber_becker%40quigley.io&properties%5Bfirstname%5D=Amber&properties%5Blastname%5D=Quigley&properties%5Bhs_content_membership_status%5D=inactive',
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_json('update_or_create_contact'), headers: {})
+      end
+
+      it 'updates the contact' do
+        expect(response).to eq JSON.parse load_json('update_or_create_contact'), symbolize_names: true
+      end
+    end
+
+    context "when contact isn't found" do
+      let!(:email) { 'not_found@gmail.com' }
+      let!(:body) do
+        { properties: { email: email, firstname: 'Not', lastname: 'Found', hs_content_membership_status: 'active' } }
+      end
+      let(:response) { described_class.update_or_create_contact(email, body) }
+
+      before do
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts/not_found@gmail.com?idProperty=email')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 404, body: '', headers: {})
+        stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/contacts')
+          .with(
+            body: 'properties%5Bemail%5D=not_found%40gmail.com&properties%5Bfirstname%5D=Not&properties%5Blastname%5D=Found&properties%5Bhs_content_membership_status%5D=active',
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_json('update_or_create_post'), headers: {})
+      end
+
+      it 'creates the contact' do
+        expect(response).to eq JSON.parse load_json('update_or_create_post'), symbolize_names: true
+      end
     end
   end
 end
