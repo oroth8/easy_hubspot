@@ -26,11 +26,14 @@ module EasyHubspot
         Client.do_delete(determine_endpoint(contact_id), headers)
       end
 
-    # def get_associated_contacts(contact_id, object_type, object_id, association_id)
-    #   # TODO: Error handling arguments
-    #   path = merge_path("#{CONTACT_ENDPOINT}/#{contact_id}/associations/#{object_type}/#{object_id}/#{association_id}")
-    #   Client.do_get(path, headers)
-    # end
+      def update_or_create_contact(email, body)
+        res = get_contact(email)
+        if res && res[:id]
+          update_contact(email, body)
+        else  
+          create_contact(body)
+        end
+      end
 
     private
 
