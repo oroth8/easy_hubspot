@@ -4,7 +4,6 @@ require 'easy_hubspot'
 require 'webmock/rspec'
 require 'capybara/rspec'
 require 'helper'
-require 'pry'
 
 require File.expand_path 'lib/easy_hubspot'
 
