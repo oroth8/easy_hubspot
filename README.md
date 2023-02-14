@@ -1,11 +1,18 @@
 # EasyHubspot
-![version](https://img.shields.io/badge/version-0.1.7-green)
+![version](https://img.shields.io/badge/version-0.1.8-green)
 [![CI](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml/badge.svg)](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/oroth8/easy_hubspot/badges/gpa.svg)](https://codeclimate.com/github/oroth8/easy_hubspot)
 
 This is a lightweight wrapper for the Hubspot API. It is designed to be easy to use and to provide a simple setup for the most common use cases.
 
 This gem utilizes the `v3` hubspot-api
+
+### Dependencies
+- [gem "httparty", "~> 0.21.0"](https://github.com/jnunemaker/httparty)
+
+### Compatibility
+- `ruby >= 2.6.10`
+- `rails >= 6.0`
 
 ## Installation
 
@@ -55,6 +62,20 @@ EasyHubspot::Contact.get_contacts
 EasyHubspot::Contact.delete_contact(123)
 # or 
 EasyHubspot::Contact.delete_contact('test@gmail.com')
+```
+
+## Error Handling
+
+```ruby
+def call
+  begin
+    EasyHubspot::Contact.create_contact(body)
+  rescue EasyHubspot::HubspotApiError => e
+    # handle error code
+    # e.message = 'Contact already exists. Existing ID: 801'
+    Rails.logger.info(e.message)
+  end
+end
 ```
 
 ## Development
