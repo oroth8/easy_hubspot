@@ -31,9 +31,9 @@ module EasyHubspot
       private
 
       def parse_response(res)
-        return {:status => "error", :message => "404 Not Found"} if res.code == 404
+        return { :status => 'error', :message => '404 Not Found' } if res.code == 404
 
-        return if res.body.nil? || res.body.empty? 
+        return if res.body.nil? || res.body.empty?
 
         parsed_res = JSON.parse res, symbolize_names: true
         raise EasyHubspot::HubspotApiError, parsed_res[:message] if parsed_res[:status] == 'error'

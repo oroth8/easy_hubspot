@@ -30,7 +30,7 @@ module EasyHubspot
         res = get_contact(email)
         if res && res[:id]
           update_contact(email, body)
-        else  
+        else
           create_contact(body)
         end
       end

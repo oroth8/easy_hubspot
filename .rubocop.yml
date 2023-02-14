@@ -15,7 +15,9 @@ Naming/AccessorMethodName:
     - 'lib/easy_hubspot/client.rb'
 
 Layout/LineLength:
-  Max: 125
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
 
 RSpec/BeforeAfterAll:
   Enabled: false
