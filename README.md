@@ -44,24 +44,60 @@ rails g easy_hubspot:install
 Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/contacts)
 
 ```ruby
-# Create a contact
-EasyHubspot::Contact.create_contact(properties: { email: '', firstname: '', lastname: '' , etc: ''})
+# Create a contact 
+  # required: body 
+  # returns: parsed hubspot contact
+  EasyHubspot::Contact.create_contact(properties: { email: '', firstname: '', lastname: '' , etc: ''})
 
-# Update a contact
-EasyHubspot::Contact.update_contact(123, properties: { email: '', firstname: '', lastname: '' , etc: ''})
+# Update a contact 
+# required: contact_id, body
+# - contact_id: can be a hubspot contact_id or email
+# returns: parsed hubspot contact
+  EasyHubspot::Contact.update_contact(123, properties: { email: '', firstname: '', lastname: '' , etc: ''})
 
 # Get a contact
-EasyHubspot::Contact.get_contact(123)
+# required: contact_id
+# - contact_id: can be a hubspot contact_id or email
+# returns: parsed hubspot contact
+  EasyHubspot::Contact.get_contact(123)
 # or
-EasyHubspot::Contact.get_contact('test@gmail.com')
+  EasyHubspot::Contact.get_contact('test@gmail.com')
 
-# Get all contacts
-EasyHubspot::Contact.get_contacts
+# Get all contacts 
+# returns: parsed hubspot contacts
+  EasyHubspot::Contact.get_contacts
 
-# Delete a contact
-EasyHubspot::Contact.delete_contact(123)
+# Delete a contact 
+# required: contact_id 
+# - contact_id: can be a hubspot contact_id or email
+# returns: {status: 'success'}
+  EasyHubspot::Contact.delete_contact(123)
 # or 
-EasyHubspot::Contact.delete_contact('test@gmail.com')
+  EasyHubspot::Contact.delete_contact('test@gmail.com')
+
+# Update or Create a contact
+# required: email, body 
+# returns: parsed hubspot contact
+  EasyHubspot::Contact.update_or_create_contact(properties: { email: '', firstname: '', lastname: '' , etc: ''})
+
+
+# Parse hubspot contact example
+{:id=>"701",
+ :properties=>
+  {:createdate=>"2023-02-08T20:10:36.858Z", 
+  :email=>"amber_becker@quigley.io", 
+  :firstname=>"Amber", 
+  :hs_content_membership_status=>"inactive", 
+  :hs_is_contact=>"true", 
+  :hs_is_unworked=>"true", 
+  :hs_object_id=>"701", 
+  :hs_pipeline=>"contacts-lifecycle-pipeline", 
+  :lastmodifieddate=>"2023-02-14T18:24:07.654Z", 
+  :lastname=>"Quigley", 
+  :lifecyclestage=>"lead"},
+ :createdAt=>"2023-02-08T20:10:36.858Z",
+ :updatedAt=>"2023-02-14T18:24:07.654Z",
+ :archived=>false}
 ```
 
 ## Error Handling
