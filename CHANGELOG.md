@@ -1,5 +1,7 @@
 ## [Official Release]
 - [0.1.7] - 2023-02-10
+- [0.1.8] - 2023-02-10
+- [0.1.9] - 2023-02-14 https://github.com/oroth8/easy_hubspot/pull/6
 
 ## [Unreleased]
 

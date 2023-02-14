@@ -25,13 +25,15 @@ module EasyHubspot
       def do_delete(path = nil, headers = {})
         response = HTTParty.delete("#{EasyHubspot.configuration.base_url}#{path}", headers: headers,
                                                                                    format: :plain)
-        parse_response(response)
+        parse_response(response).nil? ? { status: 'success' } : parse_response(response)
       end
 
       private
 
       def parse_response(res)
-        return if res.body.nil?
+        return { status: 'error', message: '404 Not Found' } if res.code == 404
+
+        return if res.body.nil? || res.body.empty?
 
         parsed_res = JSON.parse res, symbolize_names: true
         raise EasyHubspot::HubspotApiError, parsed_res[:message] if parsed_res[:status] == 'error'
