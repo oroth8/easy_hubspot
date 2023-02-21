@@ -26,15 +26,6 @@ module EasyHubspot
           Client.do_delete(deal_id_endpoint(deal_id), headers)
         end
   
-        def update_or_create_deal(email, body)
-          res = get_deal(email)
-          if res && res[:id]
-            update_deal(email, body)
-          else
-            create_deal(body)
-          end
-        end
-  
       private
 
       def deal_id_endpoint(deal_id)
