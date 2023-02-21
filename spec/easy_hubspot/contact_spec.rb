@@ -22,7 +22,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('contact'), headers: {})
+          .to_return(status: 200, body: load_contact_json('contact'), headers: {})
       end
 
       let(:response) { described_class.get_contact('701') }
@@ -45,7 +45,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('contact'), headers: {})
+          .to_return(status: 200, body: load_contact_json('contact'), headers: {})
       end
 
       let(:response) { described_class.get_contact('amber_becker@quigley.io') }
@@ -70,7 +70,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('contacts'), headers: {})
+          .to_return(status: 200, body: load_contact_json('contacts'), headers: {})
       end
 
       let(:response) { described_class.get_contacts }
@@ -95,7 +95,7 @@ RSpec.describe EasyHubspot::Contact do
             'User-Agent' => 'Ruby'
           }
         )
-        .to_return(status: 201, body: load_json('create_contact'), headers: {})
+        .to_return(status: 201, body: load_contact_json('create_contact'), headers: {})
     end
 
     let(:body) do
@@ -125,7 +125,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('update_contact'), headers: {})
+          .to_return(status: 200, body: load_contact_json('update_contact'), headers: {})
       end
 
       let(:body) do
@@ -154,7 +154,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('update_contact'), headers: {})
+          .to_return(status: 200, body: load_contact_json('update_contact'), headers: {})
       end
 
       let(:body) do
@@ -233,7 +233,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 400, body: load_json('duplicate_contact'), headers: {})
+          .to_return(status: 400, body: load_contact_json('duplicate_contact'), headers: {})
       end
 
       let(:body) do
@@ -260,7 +260,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 400, body: load_json('contact_not_found'), headers: {})
+          .to_return(status: 400, body: load_contact_json('contact_not_found'), headers: {})
       end
 
       let(:body) do
@@ -286,7 +286,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 404, body: load_json('contact_not_found'), headers: {})
+          .to_return(status: 404, body: load_contact_json('contact_not_found'), headers: {})
       end
 
       let(:response) { described_class.get_contact('4040') }
@@ -316,7 +316,7 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('contact'), headers: {})
+          .to_return(status: 200, body: load_contact_json('contact'), headers: {})
         stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/contacts/amber_becker@quigley.io?idProperty=email')
           .with(
             body: 'properties%5Bemail%5D=amber_becker%40quigley.io&properties%5Bfirstname%5D=Amber&properties%5Blastname%5D=Quigley&properties%5Bhs_content_membership_status%5D=inactive',
@@ -328,11 +328,11 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('update_or_create_contact'), headers: {})
+          .to_return(status: 200, body: load_contact_json('update_or_create_contact'), headers: {})
       end
 
       it 'updates the contact' do
-        expect(response).to eq JSON.parse load_json('update_or_create_contact'), symbolize_names: true
+        expect(response).to eq JSON.parse load_contact_json('update_or_create_contact'), symbolize_names: true
       end
     end
 
@@ -366,11 +366,11 @@ RSpec.describe EasyHubspot::Contact do
               'User-Agent' => 'Ruby'
             }
           )
-          .to_return(status: 200, body: load_json('update_or_create_post'), headers: {})
+          .to_return(status: 200, body: load_contact_json('update_or_create_post'), headers: {})
       end
 
       it 'creates the contact' do
-        expect(response).to eq JSON.parse load_json('update_or_create_post'), symbolize_names: true
+        expect(response).to eq JSON.parse load_contact_json('update_or_create_post'), symbolize_names: true
       end
     end
   end

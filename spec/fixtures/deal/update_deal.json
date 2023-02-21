@@ -1,0 +1,25 @@
+{
+    "id": "12259629202",
+    "properties": {
+        "amount": "1600.00",
+        "amount_in_home_currency": "1600.00",
+        "closedate": "2023-11-07T16:50:06.678Z",
+        "createdate": "2023-02-21T22:44:42.274Z",
+        "days_to_close": "258",
+        "dealname": "New Big Deal UPDATE",
+        "hs_closed_amount": "0",
+        "hs_closed_amount_in_home_currency": "0",
+        "hs_deal_stage_probability": "0",
+        "hs_deal_stage_probability_shadow": "0",
+        "hs_forecast_amount": "1600.00",
+        "hs_is_closed_won": "false",
+        "hs_lastmodifieddate": "2023-02-21T22:45:40.965Z",
+        "hs_object_id": "12259629202",
+        "hs_projected_amount": "0.00",
+        "hs_projected_amount_in_home_currency": "0.00",
+        "pipeline": "default"
+    },
+    "createdAt": "2023-02-21T22:44:42.274Z",
+    "updatedAt": "2023-02-21T22:45:40.965Z",
+    "archived": false
+}
