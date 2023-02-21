@@ -1,0 +1,36 @@
+{
+    "results": [
+        {
+            "id": "11733930097",
+            "properties": {
+                "amount": "145.23",
+                "closedate": "2023-01-31T19:07:14.556Z",
+                "createdate": "2023-01-17T19:08:17.399Z",
+                "dealname": "Order # 123456",
+                "dealstage": "closedwon",
+                "hs_lastmodifieddate": "2023-01-17T19:08:22.005Z",
+                "hs_object_id": "11733930097",
+                "pipeline": "default"
+            },
+            "createdAt": "2023-01-17T19:08:17.399Z",
+            "updatedAt": "2023-01-17T19:08:22.005Z",
+            "archived": false
+        },
+        {
+            "id": "12259456000",
+            "properties": {
+                "amount": null,
+                "closedate": "2023-02-28T22:35:35.877Z",
+                "createdate": "2023-02-21T22:35:40.744Z",
+                "dealname": "test deal 2",
+                "dealstage": "appointmentscheduled",
+                "hs_lastmodifieddate": "2023-02-21T22:35:42.272Z",
+                "hs_object_id": "12259456000",
+                "pipeline": "default"
+            },
+            "createdAt": "2023-02-21T22:35:40.744Z",
+            "updatedAt": "2023-02-21T22:35:42.272Z",
+            "archived": false
+        }
+    ]
+}
