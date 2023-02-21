@@ -8,6 +8,12 @@ This is a lightweight wrapper for the Hubspot API. It is designed to be easy to 
 
 This gem utilizes the `v3` hubspot-api
 
+## CRM Objects
+- [Contacts](#contacts)
+- [Deals](#deals)
+
+- [Error Handling](#error-handling)
+
 ### Dependencies
 - [gem "httparty", "~> 0.21.0"](https://github.com/jnunemaker/httparty)
 
@@ -99,6 +105,36 @@ Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/c
  :createdAt=>"2023-02-08T20:10:36.858Z",
  :updatedAt=>"2023-02-14T18:24:07.654Z",
  :archived=>false}
+```
+
+### Deals
+```ruby
+# Create a deal 
+  # required: body
+  # returns: parsed hubspot deal
+  EasyHubspot::Deal.create_deal(properties: { dealname: '', amount: '', etc: ''})
+
+# Update a deal
+# required: deal_id, body
+# - deal_id: must be a hubspot deal_id
+# returns: parsed hubspot deal
+  EasyHubspot::Deal.update_deal(123, properties: { dealname: '', amount: '', etc: ''})
+
+# Get a deal
+# required: deal_id
+# - deal_id: must be a hubspot deal_id
+# returns: parsed hubspot deal
+  EasyHubspot::Deal.get_deal(123)
+
+# Get all deals
+# returns: parsed hubspot deals
+  EasyHubspot::Deal.get_deals
+
+# Delete a deal
+# required: deal_id
+# - deal_id: must be a hubspot deal_id
+# returns: {status: 'success'}
+  EasyHubspot::Deal.delete_deal(123)
 ```
 
 ## Error Handling
