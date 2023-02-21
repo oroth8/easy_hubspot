@@ -1,6 +1,6 @@
 # EasyHubspot
-Stable: ![stable version](https://img.shields.io/badge/version-0.1.8-green)
-Latest: ![latest version](https://img.shields.io/badge/version-0.1.9-yellow)
+Stable: ![stable version](https://img.shields.io/badge/version-0.1.10-green)
+Latest: ![latest version](https://img.shields.io/badge/version-0.1.10-yellow)
 [![CI](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml/badge.svg)](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/oroth8/easy_hubspot/badges/gpa.svg)](https://codeclimate.com/github/oroth8/easy_hubspot)
 
