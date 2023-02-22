@@ -1,13 +1,18 @@
 # frozen_string_literal: true
-
+require 'simplecov'
 require 'easy_hubspot'
 require 'webmock/rspec'
 require 'capybara/rspec'
 require 'helper'
-require 'simplecov'
+
 
 # For send test reports to Code Climate
-SimpleCov.start
+if ENV.fetch('COVERAGE', false)
+  SimpleCov.start do
+    minimum_coverage 90
+    maximum_coverage_drop 2
+  end
+end
 
 
 require File.expand_path 'lib/easy_hubspot'
