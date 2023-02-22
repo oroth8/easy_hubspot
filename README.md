@@ -3,6 +3,7 @@ Stable: ![stable version](https://img.shields.io/badge/version-0.1.10-green)
 Latest: ![latest version](https://img.shields.io/badge/version-0.1.10-yellow)
 [![CI](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml/badge.svg)](https://github.com/oroth8/easy_hubspot/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/oroth8/easy_hubspot/badges/gpa.svg)](https://codeclimate.com/github/oroth8/easy_hubspot)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c55dfda6142769b8209c/test_coverage)](https://codeclimate.com/github/oroth8/easy_hubspot/test_coverage)
 
 This is a lightweight wrapper for the Hubspot API. It is designed to be easy to use and to provide a simple setup for the most common use cases.
 
