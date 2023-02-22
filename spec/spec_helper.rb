@@ -4,6 +4,11 @@ require 'easy_hubspot'
 require 'webmock/rspec'
 require 'capybara/rspec'
 require 'helper'
+require 'simplecov'
+
+# For send test reports to Code Climate
+SimpleCov.start
+
 
 require File.expand_path 'lib/easy_hubspot'
 
