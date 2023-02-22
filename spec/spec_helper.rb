@@ -1,10 +1,10 @@
 # frozen_string_literal: true
+
 require 'simplecov'
 require 'easy_hubspot'
 require 'webmock/rspec'
 require 'capybara/rspec'
 require 'helper'
-
 
 # For send test reports to Code Climate
 if ENV.fetch('COVERAGE', false)
@@ -13,7 +13,6 @@ if ENV.fetch('COVERAGE', false)
     maximum_coverage_drop 2
   end
 end
-
 
 require File.expand_path 'lib/easy_hubspot'
 
