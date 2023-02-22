@@ -25,8 +25,6 @@ jobs:
         gem install bundler
         bundle install
         bundle exec rspec
-      with:
-        bundler-cache: true
     - name: Publish code coverage
       run: |
         export GIT_BRANCH="${GITHUB_REF/refs\/heads\//}"
