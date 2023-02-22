@@ -1,16 +1,20 @@
 name: RSpec with SimpleCov
-
-on: [push]
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Ruby 3.1
+      - uses: actions/checkout@v3
+      - name: Set up Ruby 3.2
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 3.1.x
+          ruby-version: "3.2.0"
+          bundle-chase: true
       - name: Build and test with Rake
         run: |
           gem install bundler
