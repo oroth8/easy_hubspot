@@ -14,5 +14,5 @@ group :development, :test do
 end
 
 group :test do
-  gem 'simplecov', '~> 0.21.2'
+  gem 'simplecov', '~> 0.17.0'
 end
