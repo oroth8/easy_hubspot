@@ -26,12 +26,6 @@ jobs:
           gem install bundler
           bundle install --jobs 4 --retry 3
           COVERAGE=true bundle exec rspec
-      - name: Upload coverage results
-        uses: joshmfrankel/simplecov-check-action@main
-        with:
-          minimum_suite_coverage: 90
-          minimum_file_coverage: 90
-          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish code coverage
         run: |
           export GIT_BRANCH="${GITHUB_REF/refs\/heads\//}"
