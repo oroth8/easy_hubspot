@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby 3.1
@@ -23,4 +24,6 @@ jobs:
       - name: Upload coverage results
         uses: joshmfrankel/simplecov-check-action@main
         with:
+          minimum_suite_coverage: 90
+          minimum_file_coverage: 90
           github_token: ${{ secrets.GITHUB_TOKEN }}
