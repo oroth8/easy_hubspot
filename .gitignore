@@ -9,3 +9,4 @@
 .DS_Store
 /pkg/
 /spec/tmp
+coverage
