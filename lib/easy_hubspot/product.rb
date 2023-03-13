@@ -22,6 +22,10 @@ module EasyHubspot
         Client.do_patch(product_id_endpoint(product_id), body, headers)
       end
 
+      def delete_product(product_id)
+        Client.do_delete(product_id_endpoint(product_id), headers)
+      end
+
       private
 
       def product_id_endpoint(product_id)

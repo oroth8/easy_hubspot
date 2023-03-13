@@ -117,4 +117,30 @@ RSpec.describe EasyHubspot::Product do
       end
     end
   end
+
+  describe 'delete_product' do
+    let(:success) { { status: 'success' } }
+
+    context 'when product is found using product_id' do
+      before do
+        stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/products/1174789087')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 204, body: '', headers: {})
+      end
+
+      let(:response) { described_class.delete_product('1174789087') }
+
+      it 'returns no content' do
+        expect(response).to eq success
+      end
+    end
+  end
 end
