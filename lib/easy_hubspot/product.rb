@@ -14,6 +14,14 @@ module EasyHubspot
         Client.do_get(PRODUCT_ENDPOINT, headers)
       end
 
+      def create_product(body)
+        Client.do_post(PRODUCT_ENDPOINT, body, headers)
+      end
+
+      def update_product(product_id, body)
+        Client.do_patch(product_id_endpoint(product_id), body, headers)
+      end
+
       private
 
       def product_id_endpoint(product_id)
