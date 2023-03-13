@@ -108,7 +108,7 @@ RSpec.describe EasyHubspot::Product do
       let(:body) do
         { properties: { price: '100.00', name: 'New' } }
       end
-      let(:response) { described_class.update_product(11_747_890_87, body) }
+      let(:response) { described_class.update_product(1_174_789_087, body) }
 
       it 'returns a product' do
         expect(response[:id]).to eq '1174789087'
@@ -140,6 +140,56 @@ RSpec.describe EasyHubspot::Product do
 
       it 'returns no content' do
         expect(response).to eq success
+      end
+    end
+  end
+
+  describe 'errors' do
+    context "when trying to update a property that doesn't exist" do
+      before do
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/products/1172707032')
+          .with(
+            body: 'properties%5Bid%5D=1172707032&properties%5Bcolor%5D=Blue',
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          ).to_return(status: 200, body: load_product_json('property_not_found'), headers: {})
+      end
+
+      let(:body) do
+        { properties: { id: '1172707032', color: 'Blue' } }
+      end
+
+      it 'raises a HubspotApiError' do
+        expect do
+          described_class.update_product(1_172_707_032, body)
+        end.to raise_error(EasyHubspot::HubspotApiError)
+      end
+    end
+
+    context 'when hubspot api returns a 404 reponse code' do
+      before do
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/products/404')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 404, body: nil, headers: {})
+      end
+
+      let(:response) { described_class.get_product('404') }
+
+      it 'returns a 404 status error message' do
+        expect(response).to eq({ status: 'error', message: '404 Not Found' })
       end
     end
   end
