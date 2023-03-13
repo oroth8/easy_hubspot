@@ -1,0 +1,32 @@
+{
+  "results": [
+      {
+          "id": "1172707032",
+          "properties": {
+              "createdate": "2023-03-13T15:25:37.962Z",
+              "description": "A red t-shirt",
+              "hs_lastmodifieddate": "2023-03-13T15:25:37.962Z",
+              "hs_object_id": "1172707032",
+              "name": "Red Shirt",
+              "price": "25"
+          },
+          "createdAt": "2023-03-13T15:25:37.962Z",
+          "updatedAt": "2023-03-13T15:25:37.962Z",
+          "archived": false
+      },
+      {
+          "id": "1174683366",
+          "properties": {
+              "createdate": "2023-03-13T15:23:12.627Z",
+              "description": null,
+              "hs_lastmodifieddate": "2023-03-13T15:23:12.627Z",
+              "hs_object_id": "1174683366",
+              "name": "Blue Shirt",
+              "price": "15"
+          },
+          "createdAt": "2023-03-13T15:23:12.627Z",
+          "updatedAt": "2023-03-13T15:23:12.627Z",
+          "archived": false
+      }
+  ]
+}

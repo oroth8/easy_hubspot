@@ -10,6 +10,10 @@ module EasyHubspot
         Client.do_get(product_id_endpoint(product_id), headers)
       end
 
+      def get_products
+        Client.do_get(PRODUCT_ENDPOINT, headers)
+      end
+
       private
 
       def product_id_endpoint(product_id)
