@@ -12,6 +12,8 @@ This gem utilizes the `v3` hubspot-api
 ## CRM Objects
 - [Contacts](#contacts)
 - [Deals](#deals)
+- [Products](#products)
+- [Line Items](#line-items)
 
 - [Error Handling](#error-handling)
 
@@ -136,6 +138,69 @@ Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/c
 # - deal_id: must be a hubspot deal_id
 # returns: {status: 'success'}
   EasyHubspot::Deal.delete_deal(123)
+```
+
+### Products
+Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/products)
+```ruby
+# Create a product 
+  # required: body
+  # returns: parsed hubspot product
+  EasyHubspot::Product.create_product(properties: { name: '', price: '', etc: ''})
+
+# Update a product
+# required: product_id, body
+# - product_id: must be a hubspot product_id
+# returns: parsed hubspot product
+  EasyHubspot::Product.update_product(123, properties: { name: '', price: '', etc: ''})
+
+# Get a product
+# required: product_id
+# - product_id: must be a hubspot product_id
+# returns: parsed hubspot product
+  EasyHubspot::Product.get_product(123)
+
+# Get all products
+# returns: parsed hubspot products
+  EasyHubspot::Product.get_products
+
+# Delete a product
+# required: product_id
+# - product_id: must be a hubspot product_id
+# returns: {status: 'success'}
+  EasyHubspot::Product.delete_product(123)
+```
+
+### Line Items
+Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/line-items)
+```ruby
+# Create a line item
+  # required: body
+  # Use hs_product_id property to base on an existing product
+  # returns: parsed hubspot line item
+  EasyHubspot::LineItem.create_line_item(properties: { quantity: '', hs_product_id: '', etc: ''})
+
+# Update a line item
+# required: line_item_id, body
+# - line_item_id: must be a hubspot line_item_id
+# returns: parsed hubspot line item
+  EasyHubspot::LineItem.update_line_item(123, properties: { quantity: '', etc: ''})
+
+# Get a line item
+# required: line_item_id
+# - line_item_id: must be a hubspot line_item_id
+# returns: parsed hubspot line item
+  EasyHubspot::LineItem.get_line_item(123)
+
+# Get all line items
+# returns: parsed hubspot line items
+  EasyHubspot::LineItem.get_line_items
+
+# Delete a line item
+# required: line_item_id
+# - line_item_id: must be a hubspot line_item_id
+# returns: {status: 'success'}
+  EasyHubspot::LineItem.delete_line_item(123)
 ```
 
 ## Error Handling
