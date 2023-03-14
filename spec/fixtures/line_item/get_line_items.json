@@ -1,0 +1,32 @@
+{
+  "results": [
+      {
+          "id": "4117710324",
+          "properties": {
+              "amount": "71.820",
+              "createdate": "2023-03-14T09:52:54.699Z",
+              "hs_lastmodifieddate": "2023-03-14T09:55:27.807Z",
+              "hs_object_id": "4117710324",
+              "hs_product_id": "1175864298",
+              "quantity": "1"
+          },
+          "createdAt": "2023-03-14T09:52:54.699Z",
+          "updatedAt": "2023-03-14T09:55:27.807Z",
+          "archived": false
+      },
+      {
+          "id": "4117712323",
+          "properties": {
+              "amount": "215.460",
+              "createdate": "2023-03-14T10:00:01.551Z",
+              "hs_lastmodifieddate": "2023-03-14T10:00:01.551Z",
+              "hs_object_id": "4117712323",
+              "hs_product_id": "1175864298",
+              "quantity": "3"
+          },
+          "createdAt": "2023-03-14T10:00:01.551Z",
+          "updatedAt": "2023-03-14T10:00:01.551Z",
+          "archived": false
+      }
+  ]
+}

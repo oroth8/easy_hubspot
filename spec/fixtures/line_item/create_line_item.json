@@ -1,0 +1,29 @@
+{
+  "id": "4118976207",
+  "properties": {
+      "amount": "215.460",
+      "createdate": "2023-03-14T10:31:06.428Z",
+      "hs_acv": "215.460",
+      "hs_arr": "0.000",
+      "hs_lastmodifieddate": "2023-03-14T10:31:06.428Z",
+      "hs_margin": "215.460",
+      "hs_margin_acv": "215.460",
+      "hs_margin_arr": "0.000",
+      "hs_margin_mrr": "0.000",
+      "hs_margin_tcv": "215.460",
+      "hs_mrr": "0.000",
+      "hs_object_id": "4118976207",
+      "hs_position_on_quote": "0",
+      "hs_pre_discount_amount": "215.460",
+      "hs_product_id": "1175864298",
+      "hs_recurring_billing_number_of_payments": "1",
+      "hs_tcv": "215.460",
+      "hs_total_discount": "0.000",
+      "name": "Blue Jeans",
+      "price": "71.82",
+      "quantity": "3"
+  },
+  "createdAt": "2023-03-14T10:31:06.428Z",
+  "updatedAt": "2023-03-14T10:31:06.428Z",
+  "archived": false
+}
