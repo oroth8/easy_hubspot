@@ -27,7 +27,8 @@ RSpec.describe EasyHubspot::LineItem do
 
       let(:response) { described_class.get_line_item('4118976207') }
 
-      it 'returns a product' do
+      it 'returns a line item
+      ' do
         expect(response[:id]).to eq '4118976207'
         expect(response[:properties][:amount]).to eq '215.460'
         expect(response[:properties][:quantity]).to eq '3'
@@ -63,21 +64,21 @@ RSpec.describe EasyHubspot::LineItem do
 
   describe 'create_line_item' do
     before do
-      stub_request(:post, "https://api.hubapi.com/crm/v3/objects/line_items")
+      stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/line_items')
         .with(
-          body: "properties%5Bname%5D=Blue%20Jeans&properties%5Bhs_product_id%5D=1175864298&properties%5Bprice%5D=71.82&properties%5Bquantity%5D=3",
+          body: 'properties%5Bname%5D=Blue%20Jeans&properties%5Bhs_product_id%5D=1175864298&properties%5Bprice%5D=71.82&properties%5Bquantity%5D=3',
           headers: {
-            'Accept'=>'*/*',
-            'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-            'Authorization'=>'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-            'Content-Type'=>'application/json',
-            'User-Agent'=>'Ruby'
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Ruby'
           }
-        ).to_return(status: 200, body: load_line_item_json('create_line_item'), headers: {})  
+        ).to_return(status: 200, body: load_line_item_json('create_line_item'), headers: {})
     end
 
     let(:body) do
-      { properties: { name: 'Blue Jeans', hs_product_id: '1175864298' , price: '71.82', quantity: '3' } }
+      { properties: { name: 'Blue Jeans', hs_product_id: '1175864298', price: '71.82', quantity: '3' } }
     end
 
     let(:response) { described_class.create_line_item(body) }
