@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module EasyHubspot
-  # class EasyHubspot::Contact
-  class Contact < EasyHubspot::Base
+module NotSoEasyHubspot
+  # class NotSoEasyHubspot::Contact
+  class Contact < NotSoEasyHubspot::Base
     class << self
       CONTACT_ENDPOINT = 'crm/v3/objects/contacts'
 

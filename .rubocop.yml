@@ -7,12 +7,12 @@ AllCops:
 
 Style/HashSyntax:
   Exclude:
-    - 'lib/easy_hubspot/client.rb'
+    - 'lib/not_so_easy_hubspot/client.rb'
 
 Naming/AccessorMethodName:
   Enabled: false
   Include:
-    - 'lib/easy_hubspot/client.rb'
+    - 'lib/not_so_easy_hubspot/client.rb'
 
 Layout/LineLength:
   Enabled: true
@@ -30,4 +30,4 @@ RSpec/MultipleExpectations:
 
 Style/StringLiterals:
   Exclude:
-    - 'lib/easy_hubspot/base.rb'
+    - 'lib/not_so_easy_hubspot/base.rb'

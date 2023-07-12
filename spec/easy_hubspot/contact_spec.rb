@@ -2,9 +2,9 @@
 
 require 'spec_helper'
 
-RSpec.describe EasyHubspot::Contact do
+RSpec.describe NotSoEasyHubspot::Contact do
   before :all do
-    EasyHubspot.config do |config|
+    NotSoEasyHubspot.config do |config|
       config.access_token = 'YOUR-PRIVATE-ACCESS-TOKEN'
     end
   end
@@ -243,7 +243,7 @@ RSpec.describe EasyHubspot::Contact do
       it 'raises a HubspotApiError' do
         expect do
           described_class.create_contact(body)
-        end.to raise_error(EasyHubspot::HubspotApiError, 'Contact already exists. Existing ID: 801')
+        end.to raise_error(NotSoEasyHubspot::HubspotApiError, 'Contact already exists. Existing ID: 801')
       end
     end
 
@@ -270,7 +270,7 @@ RSpec.describe EasyHubspot::Contact do
       it 'raises a HubspotApiError' do
         expect do
           described_class.update_contact('1234', body)
-        end.to raise_error(EasyHubspot::HubspotApiError, 'resource not found')
+        end.to raise_error(NotSoEasyHubspot::HubspotApiError, 'resource not found')
       end
     end
 

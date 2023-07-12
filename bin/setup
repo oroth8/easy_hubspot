@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'easy_hubspot'
+require 'not_so_easy_hubspot'
 
 require 'irb'
 IRB.start

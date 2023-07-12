@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe EasyHubspot do
+describe NotSoEasyHubspot do
   describe '.config' do
     before do
       described_class.config do |config|

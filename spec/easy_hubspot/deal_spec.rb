@@ -2,9 +2,9 @@
 
 require 'spec_helper'
 
-RSpec.describe EasyHubspot::Deal do
+RSpec.describe NotSoEasyHubspot::Deal do
   before :all do
-    EasyHubspot.config do |config|
+    NotSoEasyHubspot.config do |config|
       config.access_token = 'YOUR-PRIVATE-ACCESS-TOKEN'
     end
   end
@@ -169,7 +169,7 @@ RSpec.describe EasyHubspot::Deal do
       it 'raises a HubspotApiError' do
         expect do
           described_class.update_deal(9_876_543_210, body)
-        end.to raise_error(EasyHubspot::HubspotApiError, 'resource not found')
+        end.to raise_error(NotSoEasyHubspot::HubspotApiError, 'resource not found')
       end
     end
 

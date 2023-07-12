@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-require 'easy_hubspot/base'
-require 'easy_hubspot/client'
-require 'easy_hubspot/contact'
-require 'easy_hubspot/deal'
-require 'easy_hubspot/version'
-require 'easy_hubspot/generators/install_generator'
-require 'easy_hubspot/exceptions'
+require 'not_so_easy_hubspot/base'
+require 'not_so_easy_hubspot/client'
+require 'not_so_easy_hubspot/contact'
+require 'not_so_easy_hubspot/deal'
+require 'not_so_easy_hubspot/version'
+require 'not_so_easy_hubspot/generators/install_generator'
+require 'not_so_easy_hubspot/exceptions'
 
 require 'httparty'
 require 'json'
 require 'uri'
 
-# EasyHubspot
-module EasyHubspot
+# NotSoEasyHubspot
+module NotSoEasyHubspot
   class << self
     attr_accessor :configuration
   end
@@ -23,7 +23,7 @@ module EasyHubspot
     yield(configuration)
   end
 
-  # EasyHubspot::Configuration
+  # NotSoEasyHubspot::Configuration
   class Configuration
     attr_accessor :access_token, :base_url
 

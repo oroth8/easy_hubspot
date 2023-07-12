@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'simplecov'
-require 'easy_hubspot'
+require 'not_so_easy_hubspot'
 require 'webmock/rspec'
 require 'capybara/rspec'
 require 'helper'
@@ -14,7 +14,7 @@ if ENV.fetch('COVERAGE', false)
   end
 end
 
-require File.expand_path 'lib/easy_hubspot'
+require File.expand_path 'lib/not_so_easy_hubspot'
 
 Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 

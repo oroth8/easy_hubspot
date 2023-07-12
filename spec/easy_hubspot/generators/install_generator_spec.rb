@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'generator_spec'
 
-RSpec.describe EasyHubspot::Generators::InstallGenerator, type: :generator do
+RSpec.describe NotSoEasyHubspot::Generators::InstallGenerator, type: :generator do
   destination File.expand_path('../tmp', __dir__)
   arguments %w[something]
 
@@ -13,6 +13,6 @@ RSpec.describe EasyHubspot::Generators::InstallGenerator, type: :generator do
   end
 
   it 'creates a test initialize file' do
-    assert_file 'config/initializers/easy_hubspot.rb', /EasyHubspot.config do |config|/
+    assert_file 'config/initializers/not_so_easy_hubspot.rb', /NotSoEasyHubspot.config do |config|/
   end
 end

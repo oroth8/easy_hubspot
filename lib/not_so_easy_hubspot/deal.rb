@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module EasyHubspot
-  # class EasyHubspot::deal
-  class Deal < EasyHubspot::Base
+module NotSoEasyHubspot
+  # class NotSoEasyHubspot::deal
+  class Deal < NotSoEasyHubspot::Base
     class << self
       DEAL_ENDPOINT = 'crm/v3/objects/deals'
 

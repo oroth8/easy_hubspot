@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in easy_hubspot.gemspec
+# Specify your gem's dependencies in not_so_easy_hubspot.gemspec
 gemspec
 
 group :development, :test do
