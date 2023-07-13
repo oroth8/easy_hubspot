@@ -41,12 +41,6 @@ NotSoEasyHubspot.config do |c|
 end
 ```
 
-Or run the generator:
-
-```bash
-rails g not_so_easy_hubspot:install
-```
-
 ### Contacts
 
 Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/contacts)

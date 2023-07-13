@@ -5,7 +5,6 @@ require 'not_so_easy_hubspot/client'
 require 'not_so_easy_hubspot/contact'
 require 'not_so_easy_hubspot/deal'
 require 'not_so_easy_hubspot/version'
-require 'not_so_easy_hubspot/generators/install_generator'
 require 'not_so_easy_hubspot/exceptions'
 
 require 'httparty'
