@@ -8,4 +8,12 @@ module Helper
   def load_deal_json(file_name)
     File.open("#{File.dirname(__FILE__)}/fixtures/deal/#{file_name}.json").read
   end
+
+  def load_product_json(file_name)
+    File.open("#{File.dirname(__FILE__)}/fixtures/product/#{file_name}.json").read
+  end
+
+  def load_line_item_json(file_name)
+    File.open("#{File.dirname(__FILE__)}/fixtures/line_item/#{file_name}.json").read
+  end
 end

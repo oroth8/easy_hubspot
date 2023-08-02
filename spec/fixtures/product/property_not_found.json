@@ -1,0 +1,6 @@
+{
+    "status": "error",
+    "message": "Property values were not valid: [{\"isValid\":false,\"message\":\"Property \\\"color\\\" does not exist\",\"error\":\"PROPERTY_DOESNT_EXIST\",\"name\":\"color\"}]",
+    "correlationId": "7744398e-6014-4388-a880-e8b2a556f68b",
+    "category": "VALIDATION_ERROR"
+}
