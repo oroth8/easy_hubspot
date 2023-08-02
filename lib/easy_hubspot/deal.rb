@@ -26,11 +26,11 @@ module EasyHubspot
         Client.do_delete(deal_id_endpoint(deal_id), headers)
       end
 
-    private
+      private
 
       def deal_id_endpoint(deal_id)
         "#{DEAL_ENDPOINT}/#{deal_id}"
       end
-  end
+    end
   end
 end

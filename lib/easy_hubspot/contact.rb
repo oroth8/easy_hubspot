@@ -35,13 +35,13 @@ module EasyHubspot
         end
       end
 
-    private
+      private
 
       def determine_endpoint(value)
         email_endpoint = "#{CONTACT_ENDPOINT}/#{value}?idProperty=email"
         id_endpoint = "#{CONTACT_ENDPOINT}/#{value}"
         email?(value.to_s) ? email_endpoint : id_endpoint
       end
-  end
+    end
   end
 end
