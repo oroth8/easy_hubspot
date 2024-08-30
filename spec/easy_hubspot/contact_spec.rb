@@ -9,6 +9,22 @@ RSpec.describe EasyHubspot::Contact do
     end
   end
 
+  let(:base_url) { 'https://api.hubapi.com' }
+  let(:overwrite_access_token) { 'OVERWRITING-TOKEN' }
+  let(:expected_overwritten_headers_method_output) do
+    {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer #{overwrite_access_token}"
+    }
+  end
+  let(:expected_overwritten_request_headers) do
+    {
+      'Accept' => '*/*',
+      'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'User-Agent' => 'Ruby'
+    }.merge(expected_overwritten_headers_method_output)
+  end
+
   describe 'get_contact' do
     context 'when contact is found using contact_id' do
       before do
@@ -48,19 +64,43 @@ RSpec.describe EasyHubspot::Contact do
           .to_return(status: 200, body: load_contact_json('contact'), headers: {})
       end
 
-      let(:response) { described_class.get_contact('amber_becker@quigley.io') }
-
       it 'returns a contact' do
+        response = described_class.get_contact('amber_becker@quigley.io')
         expect(response[:id]).to eq '701'
         expect(response[:properties][:email]).to eq 'amber_becker@quigley.io'
+      end
+    end
+
+    context 'when contact is found using email and overwriting the default access token' do
+      before do
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts/amber_becker@quigley.io?idProperty=email')
+          .with(headers: expected_overwritten_request_headers)
+          .to_return(status: 200, body: load_contact_json('contact'), headers: {})
+        allow(EasyHubspot::Client).to receive(:do_get).and_call_original
+      end
+
+      it 'returns the contact' do
+        response = described_class.get_contact('amber_becker@quigley.io', overwrite_access_token)
+        expect(response[:id]).to eq '701'
+        expect(response[:properties][:email]).to eq 'amber_becker@quigley.io'
+      end
+
+      it 'uses the correct access token' do
+        described_class.get_contact('amber_becker@quigley.io', overwrite_access_token)
+        expect(EasyHubspot::Client).to(
+          have_received(:do_get)
+            .with('crm/v3/objects/contacts/amber_becker@quigley.io?idProperty=email', expected_overwritten_headers_method_output)
+        )
       end
     end
   end
 
   describe 'get_contacts' do
+    let(:request_endpoint) { 'crm/v3/objects/contacts' }
+
     context 'when contacts are found' do
       before do
-        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts')
+        stub_request(:get, "#{base_url}/#{request_endpoint}")
           .with(
             headers: {
               'Accept' => '*/*',
@@ -69,15 +109,34 @@ RSpec.describe EasyHubspot::Contact do
               'Content-Type' => 'application/json',
               'User-Agent' => 'Ruby'
             }
-          )
-          .to_return(status: 200, body: load_contact_json('contacts'), headers: {})
+          ).to_return(status: 200, body: load_contact_json('contacts'), headers: {})
       end
 
-      let(:response) { described_class.get_contacts }
-
       it 'returns a list of contacts' do
+        response = described_class.get_contacts
         results = response[:results]
         expect(results.count).to eq 10
+      end
+    end
+
+    context 'when overwriting the default access token' do
+      before do
+        stub_request(:get, "#{base_url}/#{request_endpoint}")
+          .with(headers: expected_overwritten_request_headers)
+          .to_return(status: 200, body: load_contact_json('contacts'), headers: {})
+        allow(EasyHubspot::Client).to receive(:do_get).and_call_original
+      end
+
+      it 'returns the contact' do
+        response = described_class.get_contacts(overwrite_access_token)
+        results = response[:results]
+        expect(results.count).to eq 10
+      end
+
+      it 'uses the correct access token' do
+        described_class.get_contacts(overwrite_access_token)
+        expect(EasyHubspot::Client).to have_received(:do_get)
+                                         .with(request_endpoint, expected_overwritten_headers_method_output)
       end
     end
   end
@@ -101,13 +160,37 @@ RSpec.describe EasyHubspot::Contact do
     let(:body) do
       { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
     end
-    let(:response) { described_class.create_contact(body) }
 
     it 'returns a contact' do
+      response = described_class.create_contact(body)
       expect(response[:id]).to eq '851'
       expect(response[:properties][:email]).to eq 'example@gmail.com'
       expect(response[:properties][:firstname]).to eq 'John'
       expect(response[:properties][:lastname]).to eq 'Smith'
+    end
+
+    context 'when overwriting the default access token' do
+      before do
+        stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/contacts')
+          .with(headers: expected_overwritten_request_headers)
+          .to_return(status: 201, body: load_contact_json('create_contact'), headers: {})
+        allow(EasyHubspot::Client).to receive(:do_post).and_call_original
+      end
+
+      it 'returns the contact' do
+        response = described_class.create_contact(body, overwrite_access_token)
+        expect(response[:id]).to eq '851'
+        expect(response[:properties][:email]).to eq 'example@gmail.com'
+        expect(response[:properties][:firstname]).to eq 'John'
+        expect(response[:properties][:lastname]).to eq 'Smith'
+      end
+
+      it 'uses the correct access token' do
+        described_class.create_contact(body, overwrite_access_token)
+        expect(EasyHubspot::Client).to(
+          have_received(:do_post)
+            .with('crm/v3/objects/contacts', body, expected_overwritten_headers_method_output))
+      end
     end
   end
 
@@ -131,9 +214,9 @@ RSpec.describe EasyHubspot::Contact do
       let(:body) do
         { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
       end
-      let(:response) { described_class.update_contact('851', body) }
 
       it 'returns a contact' do
+        response = described_class.update_contact('851', body)
         expect(response[:id]).to eq '851'
         expect(response[:properties][:email]).to eq 'example@gmail.com'
         expect(response[:properties][:firstname]).to eq 'Carl'
@@ -160,13 +243,45 @@ RSpec.describe EasyHubspot::Contact do
       let(:body) do
         { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
       end
-      let(:response) { described_class.update_contact('example@gmail.com', body) }
 
       it 'returns a contact' do
+        response = described_class.update_contact('example@gmail.com', body)
         expect(response[:id]).to eq '851'
         expect(response[:properties][:email]).to eq 'example@gmail.com'
         expect(response[:properties][:firstname]).to eq 'Carl'
         expect(response[:properties][:lastname]).to eq 'Smith'
+      end
+    end
+
+    context 'when contact is found using email while overriding the token' do
+      before do
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/contacts/example@gmail.com?idProperty=email')
+          .with(
+            body: 'properties%5Bemail%5D=example%40gmail.com&properties%5Bfirstname%5D=John&properties%5Blastname%5D=Smith',
+            headers: expected_overwritten_request_headers
+          )
+          .to_return(status: 200, body: load_contact_json('update_contact'), headers: {})
+        allow(EasyHubspot::Client).to receive(:do_patch).and_call_original
+      end
+
+      let(:body) do
+        { properties: { email: 'example@gmail.com', firstname: 'John', lastname: 'Smith' } }
+      end
+
+      it 'returns a contact' do
+        response = described_class.update_contact('example@gmail.com', body, overwrite_access_token)
+        expect(response[:id]).to eq '851'
+        expect(response[:properties][:email]).to eq 'example@gmail.com'
+        expect(response[:properties][:firstname]).to eq 'Carl'
+        expect(response[:properties][:lastname]).to eq 'Smith'
+      end
+
+      it 'uses the correct access token' do
+        described_class.update_contact('example@gmail.com', body, overwrite_access_token)
+        expect(EasyHubspot::Client).to(
+          have_received(:do_patch)
+            .with('crm/v3/objects/contacts/example@gmail.com?idProperty=email', body, expected_overwritten_headers_method_output)
+        )
       end
     end
   end
@@ -189,9 +304,8 @@ RSpec.describe EasyHubspot::Contact do
           .to_return(status: 204, body: '', headers: {})
       end
 
-      let(:response) { described_class.delete_contact('851') }
-
       it 'returns no content' do
+        response = described_class.delete_contact('851')
         expect(response).to eq success
       end
     end
@@ -211,10 +325,31 @@ RSpec.describe EasyHubspot::Contact do
           .to_return(status: 204, body: '', headers: {})
       end
 
-      let(:response) { described_class.delete_contact('example@gmail.com') }
+      it 'returns no content' do
+        response = described_class.delete_contact('example@gmail.com')
+        expect(response).to eq success
+      end
+    end
+
+    context 'when contact is found using email and the access token is being overwritten' do
+      before do
+        stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/contacts/example@gmail.com?idProperty=email')
+          .with(
+            headers: expected_overwritten_request_headers
+          ).to_return(status: 204, body: '', headers: {})
+        allow(EasyHubspot::Client).to receive(:do_delete).and_call_original
+      end
 
       it 'returns no content' do
+        response = described_class.delete_contact('example@gmail.com', overwrite_access_token)
         expect(response).to eq success
+      end
+
+      it 'uses the correct access token' do
+        described_class.delete_contact('example@gmail.com', overwrite_access_token)
+        expect(EasyHubspot::Client).to(
+          have_received(:do_delete)
+            .with('crm/v3/objects/contacts/example@gmail.com?idProperty=email', expected_overwritten_headers_method_output))
       end
     end
   end

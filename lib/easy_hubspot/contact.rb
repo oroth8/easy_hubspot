@@ -6,32 +6,32 @@ module EasyHubspot
     class << self
       CONTACT_ENDPOINT = 'crm/v3/objects/contacts'
 
-      def get_contact(contact_id)
-        Client.do_get(determine_endpoint(contact_id), headers)
+      def get_contact(contact_id, access_token = nil)
+        Client.do_get(determine_endpoint(contact_id), headers(access_token))
       end
 
-      def get_contacts
-        Client.do_get(CONTACT_ENDPOINT, headers)
+      def get_contacts(access_token = nil)
+        Client.do_get(CONTACT_ENDPOINT, headers(access_token))
       end
 
-      def create_contact(body)
-        Client.do_post(CONTACT_ENDPOINT, body, headers)
+      def create_contact(body, access_token = nil)
+        Client.do_post(CONTACT_ENDPOINT, body, headers(access_token))
       end
 
-      def update_contact(contact_id, body)
-        Client.do_patch(determine_endpoint(contact_id), body, headers)
+      def update_contact(contact_id, body, access_token = nil)
+        Client.do_patch(determine_endpoint(contact_id), body, headers(access_token))
       end
 
-      def delete_contact(contact_id)
-        Client.do_delete(determine_endpoint(contact_id), headers)
+      def delete_contact(contact_id, access_token = nil)
+        Client.do_delete(determine_endpoint(contact_id), headers(access_token))
       end
 
-      def update_or_create_contact(email, body)
-        res = get_contact(email)
+      def update_or_create_contact(email, body, access_token = nil)
+        res = get_contact(email, access_token)
         if res && res[:id]
-          update_contact(email, body)
+          update_contact(email, body, access_token)
         else
-          create_contact(body)
+          create_contact(body, access_token)
         end
       end
 
