@@ -23,6 +23,19 @@ RSpec.describe EasyHubspot::Product do
             }
           )
           .to_return(status: 200, body: load_product_json('get_product'), headers: {})
+
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/products/1172707032')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_product_json('get_product'), headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:response) { described_class.get_product('1172707032') }
@@ -30,6 +43,11 @@ RSpec.describe EasyHubspot::Product do
       it 'returns a product' do
         expect(response[:id]).to eq '1172707032'
         expect(response[:properties][:price]).to eq '25'
+      end
+
+      it 'calls for headers with the right token' do
+        described_class.get_product('1172707032', 'ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
       end
     end
   end
@@ -48,6 +66,19 @@ RSpec.describe EasyHubspot::Product do
             }
           )
           .to_return(status: 200, body: load_product_json('get_products'), headers: {})
+
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/products')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_product_json('get_products'), headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:response) { described_class.get_products }
@@ -55,6 +86,11 @@ RSpec.describe EasyHubspot::Product do
       it 'returns a list of products' do
         results = response[:results]
         expect(results.count).to eq 2
+      end
+
+      it 'calls for headers with the right access token' do
+        described_class.get_products('ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
       end
     end
   end
@@ -73,6 +109,20 @@ RSpec.describe EasyHubspot::Product do
           }
         )
         .to_return(status: 200, body: load_product_json('create_product'), headers: {})
+
+      stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/products')
+        .with(
+          body: 'properties%5Bprice%5D=75.00&properties%5Bname%5D=Blue%20Jeans&properties%5Bdescription%5D=Worn',
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Ruby'
+          }
+        )
+        .to_return(status: 200, body: load_product_json('create_product'), headers: {})
+      allow(EasyHubspot::Base).to receive(:headers).and_call_original
     end
 
     let(:body) do
@@ -85,6 +135,11 @@ RSpec.describe EasyHubspot::Product do
       expect(response[:properties][:price]).to eq '75.00'
       expect(response[:properties][:name]).to eq 'Blue Jeans'
       expect(response[:properties][:description]).to eq 'Worn'
+    end
+
+    it 'called for headers with the right access code' do
+      described_class.create_product(body, 'ANOTHER-ACCESS-TOKEN')
+      expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
     end
   end
 
@@ -103,6 +158,19 @@ RSpec.describe EasyHubspot::Product do
             }
           )
           .to_return(status: 200, body: load_product_json('update_product'), headers: {})
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/products/1174789087')
+          .with(
+            body: 'properties%5Bprice%5D=100.00&properties%5Bname%5D=New',
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_product_json('update_product'), headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:body) do
@@ -114,6 +182,11 @@ RSpec.describe EasyHubspot::Product do
         expect(response[:id]).to eq '1174789087'
         expect(response[:properties][:price]).to eq '100.00'
         expect(response[:properties][:description]).to eq 'New'
+      end
+
+      it 'calls for headers with the right access token' do
+        described_class.update_product(1_174_789_087, body, 'ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
       end
     end
   end
@@ -134,12 +207,30 @@ RSpec.describe EasyHubspot::Product do
             }
           )
           .to_return(status: 204, body: '', headers: {})
+
+        stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/products/1174789087')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 204, body: '', headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:response) { described_class.delete_product('1174789087') }
 
       it 'returns no content' do
         expect(response).to eq success
+      end
+
+      it 'calls for headers with the right access token' do
+        described_class.delete_product('1174789087', 'ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
       end
     end
   end

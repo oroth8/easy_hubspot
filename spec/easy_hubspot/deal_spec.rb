@@ -32,22 +32,58 @@ RSpec.describe EasyHubspot::Deal do
         expect(response[:properties][:amount]).to eq '145.23'
       end
     end
+
+    context 'when deal is found using deal_id and a different access token' do
+      before do
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/deals/11733930097')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_deal_json('get_deal'), headers: {})
+        allow(EasyHubspot::Client).to receive(:do_get).and_call_original
+      end
+
+      it 'returns a deal' do
+        response = described_class.get_deal('11733930097', 'ANOTHER-ACCESS-TOKEN')
+        expect(response[:id]).to eq '11733930097'
+        expect(response[:properties][:amount]).to eq '145.23'
+      end
+
+      it 'called headers with the right arguments' do
+        described_class.get_deal('11733930097', 'ANOTHER-ACCESS-TOKEN')
+
+        expect(EasyHubspot::Client).to(have_received(:do_get).with('crm/v3/objects/deals/11733930097',
+                                                                   { 'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+                                                                     'Content-Type' => 'application/json' }))
+      end
+    end
   end
 
   describe 'get_deals' do
     context 'when deals are found' do
       before do
         stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/deals')
-          .with(
-            headers: {
-              'Accept' => '*/*',
-              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-              'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
-              'Content-Type' => 'application/json',
-              'User-Agent' => 'Ruby'
-            }
-          )
+          .with(headers: { 'Accept' => '*/*',
+                           'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                           'Authorization' => 'Bearer YOUR-PRIVATE-ACCESS-TOKEN',
+                           'Content-Type' => 'application/json',
+                           'User-Agent' => 'Ruby' })
           .to_return(status: 200, body: load_deal_json('get_deals'), headers: {})
+
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/deals')
+          .with(headers: { 'Accept' => '*/*',
+                           'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                           'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+                           'Content-Type' => 'application/json',
+                           'User-Agent' => 'Ruby' })
+          .to_return(status: 200, body: load_deal_json('get_deals'), headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:response) { described_class.get_deals }
@@ -55,6 +91,11 @@ RSpec.describe EasyHubspot::Deal do
       it 'returns a list of deals' do
         results = response[:results]
         expect(results.count).to eq 2
+      end
+
+      it 'calls for headers with the right access token' do
+        described_class.get_deals('ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to(have_received(:headers).with('ANOTHER-ACCESS-TOKEN'))
       end
     end
   end
@@ -73,6 +114,21 @@ RSpec.describe EasyHubspot::Deal do
           }
         )
         .to_return(status: 200, body: load_deal_json('create_deal'), headers: {})
+
+      stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/deals')
+        .with(
+          body: 'properties%5Bamount%5D=1500.00&properties%5Bclosedate%5D=2023-12-07T16%3A50%3A06.678Z&properties%5Bdealname%5D=New%20Big%20Deal&properties%5Bpipeline%5D=default',
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Ruby'
+          }
+        )
+        .to_return(status: 200, body: load_deal_json('create_deal'), headers: {})
+
+      allow(EasyHubspot::Base).to receive(:headers).and_call_original
     end
 
     let(:body) do
@@ -85,6 +141,11 @@ RSpec.describe EasyHubspot::Deal do
       expect(response[:properties][:amount]).to eq '1500.00'
       expect(response[:properties][:closedate]).to eq '2023-12-07T16:50:06.678Z'
       expect(response[:properties][:dealname]).to eq 'New Big Deal'
+    end
+
+    it 'calls for headers with the right access token' do
+      described_class.create_deal(body, 'ANOTHER-ACCESS-TOKEN')
+      expect(EasyHubspot::Base).to(have_received(:headers).with('ANOTHER-ACCESS-TOKEN'))
     end
   end
 
@@ -103,6 +164,20 @@ RSpec.describe EasyHubspot::Deal do
             }
           )
           .to_return(status: 200, body: load_deal_json('update_deal'), headers: {})
+
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/deals/12259629202')
+          .with(
+            body: 'properties%5Bamount%5D=1600.00&properties%5Bclosedate%5D=2023-11-07T16%3A50%3A06.678Z&properties%5Bdealname%5D=New%20Big%20Deal%20UPDATE&properties%5Bpipeline%5D=default',
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_deal_json('update_deal'), headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:body) do
@@ -115,6 +190,11 @@ RSpec.describe EasyHubspot::Deal do
         expect(response[:properties][:amount]).to eq '1600.00'
         expect(response[:properties][:closedate]).to eq '2023-11-07T16:50:06.678Z'
         expect(response[:properties][:dealname]).to eq 'New Big Deal UPDATE'
+      end
+
+      it 'calls for headers with the right arguments' do
+        described_class.update_deal(12_259_629_202, body, 'ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to(have_received(:headers).with('ANOTHER-ACCESS-TOKEN'))
       end
     end
   end
@@ -135,12 +215,30 @@ RSpec.describe EasyHubspot::Deal do
             }
           )
           .to_return(status: 204, body: '', headers: {})
+
+        stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/deals/12259629202')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 204, body: '', headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:response) { described_class.delete_deal('12259629202') }
 
       it 'returns no content' do
         expect(response).to eq success
+      end
+
+      it 'headers to be fetched with the right access token' do
+        described_class.delete_deal('12259629202', 'ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to(have_received(:headers).with('ANOTHER-ACCESS-TOKEN'))
       end
     end
   end

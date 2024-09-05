@@ -4,9 +4,9 @@ module EasyHubspot
   # class EasyHubspot::Base
   class Base
     class << self
-      def headers
+      def headers(access_token = nil)
         { "Content-Type" => 'application/json',
-          "Authorization" => "Bearer #{EasyHubspot.configuration.access_token}" }
+          "Authorization" => "Bearer #{access_token || EasyHubspot.configuration.access_token}" }
       end
 
       def email?(string)

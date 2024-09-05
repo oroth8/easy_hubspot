@@ -27,12 +27,44 @@ RSpec.describe EasyHubspot::LineItem do
 
       let(:response) { described_class.get_line_item('4118976207') }
 
-      it 'returns a line item
-      ' do
+      it 'returns a line item' do
         expect(response[:id]).to eq '4118976207'
         expect(response[:properties][:amount]).to eq '215.460'
         expect(response[:properties][:quantity]).to eq '3'
         expect(response[:properties][:hs_product_id]).to eq '1175864298'
+      end
+    end
+
+    context 'when line_item is found using line_item_id while overwriting the access_token' do
+      before do
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/line_items/4118976207')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer SOME-OTHER-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_line_item_json('get_line_item'), headers: {})
+        allow(EasyHubspot::Client).to receive(:do_get).and_call_original
+      end
+
+      let(:response) { described_class.get_line_item('4118976207', 'SOME-OTHER-TOKEN') }
+
+      it 'returns a line item' do
+        expect(response[:id]).to eq '4118976207'
+        expect(response[:properties][:amount]).to eq '215.460'
+        expect(response[:properties][:quantity]).to eq '3'
+        expect(response[:properties][:hs_product_id]).to eq '1175864298'
+      end
+
+      it 'called the client method with the right token' do
+        described_class.get_line_item('4118976207', 'SOME-OTHER-TOKEN')
+        expect(EasyHubspot::Client).to have_received(:do_get).with('crm/v3/objects/line_items/4118976207',
+                                                                   { 'Content-Type' => 'application/json',
+                                                                     'Authorization' => 'Bearer SOME-OTHER-TOKEN' })
       end
     end
   end
@@ -60,6 +92,39 @@ RSpec.describe EasyHubspot::LineItem do
         expect(results.count).to eq 2
       end
     end
+
+    context 'when line_item is found while overwriting the access_token' do
+      before do
+        stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/line_items')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer SOME-OTHER-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_line_item_json('get_line_item'), headers: {})
+        allow(EasyHubspot::Client).to receive(:do_get).and_call_original
+      end
+
+      let(:response) { described_class.get_line_items('SOME-OTHER-TOKEN') }
+
+      it 'returns a line item' do
+        expect(response[:id]).to eq '4118976207'
+        expect(response[:properties][:amount]).to eq '215.460'
+        expect(response[:properties][:quantity]).to eq '3'
+        expect(response[:properties][:hs_product_id]).to eq '1175864298'
+      end
+
+      it 'called the client method with the right token' do
+        described_class.get_line_items('SOME-OTHER-TOKEN')
+        expect(EasyHubspot::Client).to have_received(:do_get).with('crm/v3/objects/line_items',
+                                                                   { 'Content-Type' => 'application/json',
+                                                                     'Authorization' => 'Bearer SOME-OTHER-TOKEN' })
+      end
+    end
   end
 
   describe 'create_line_item' do
@@ -75,6 +140,18 @@ RSpec.describe EasyHubspot::LineItem do
             'User-Agent' => 'Ruby'
           }
         ).to_return(status: 200, body: load_line_item_json('create_line_item'), headers: {})
+      stub_request(:post, 'https://api.hubapi.com/crm/v3/objects/line_items')
+        .with(
+          body: 'properties%5Bname%5D=Blue%20Jeans&properties%5Bhs_product_id%5D=1175864298&properties%5Bprice%5D=71.82&properties%5Bquantity%5D=3',
+          headers: {
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+            'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Ruby'
+          }
+        ).to_return(status: 200, body: load_line_item_json('create_line_item'), headers: {})
+      allow(EasyHubspot::Base).to receive(:headers).and_call_original
     end
 
     let(:body) do
@@ -89,6 +166,11 @@ RSpec.describe EasyHubspot::LineItem do
       expect(response[:properties][:quantity]).to eq '3'
       expect(response[:properties][:amount]).to eq '215.460'
       expect(response[:properties][:name]).to eq 'Blue Jeans'
+    end
+
+    it 'calls uses the correct access_token when overwritten' do
+      described_class.create_line_item(body, 'ANOTHER-ACCESS-TOKEN')
+      expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
     end
   end
 
@@ -107,6 +189,20 @@ RSpec.describe EasyHubspot::LineItem do
             }
           )
           .to_return(status: 200, body: load_line_item_json('update_line_item'), headers: {})
+
+        stub_request(:patch, 'https://api.hubapi.com/crm/v3/objects/line_items/4120050126')
+          .with(
+            body: 'properties%5Bquantity%5D=2',
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 200, body: load_line_item_json('update_line_item'), headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:body) do
@@ -120,6 +216,11 @@ RSpec.describe EasyHubspot::LineItem do
         expect(response[:properties][:quantity]).to eq '2'
         expect(response[:properties][:price]).to eq '71.82'
         expect(response[:properties][:amount]).to eq '143.640'
+      end
+
+      it 'calls headers with the right arguments' do
+        described_class.update_line_item(4_120_050_126, body, 'ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
       end
     end
   end
@@ -140,12 +241,30 @@ RSpec.describe EasyHubspot::LineItem do
             }
           )
           .to_return(status: 204, body: '', headers: {})
+
+        stub_request(:delete, 'https://api.hubapi.com/crm/v3/objects/line_items/4120050126')
+          .with(
+            headers: {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
+              'Content-Type' => 'application/json',
+              'User-Agent' => 'Ruby'
+            }
+          )
+          .to_return(status: 204, body: '', headers: {})
+        allow(EasyHubspot::Base).to receive(:headers).and_call_original
       end
 
       let(:response) { described_class.delete_line_item('4120050126') }
 
       it 'returns no content' do
         expect(response).to eq success
+      end
+
+      it 'calls headers with the right arguments' do
+        described_class.delete_line_item('4120050126', 'ANOTHER-ACCESS-TOKEN')
+        expect(EasyHubspot::Base).to have_received(:headers).with('ANOTHER-ACCESS-TOKEN')
       end
     end
   end
