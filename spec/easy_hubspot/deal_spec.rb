@@ -31,7 +31,6 @@ RSpec.describe EasyHubspot::Deal do
         expect(response[:id]).to eq '11733930097'
         expect(response[:properties][:amount]).to eq '145.23'
       end
-
     end
 
     context 'when deal is found using deal_id and a different access token' do
@@ -63,7 +62,6 @@ RSpec.describe EasyHubspot::Deal do
                                                                    { 'Authorization' => 'Bearer ANOTHER-ACCESS-TOKEN',
                                                                      'Content-Type' => 'application/json' }))
       end
-
     end
   end
 

@@ -136,7 +136,7 @@ RSpec.describe EasyHubspot::Contact do
       it 'uses the correct access token' do
         described_class.get_contacts(overwrite_access_token)
         expect(EasyHubspot::Client).to have_received(:do_get)
-                                         .with(request_endpoint, expected_overwritten_headers_method_output)
+          .with(request_endpoint, expected_overwritten_headers_method_output)
       end
     end
   end
@@ -189,7 +189,8 @@ RSpec.describe EasyHubspot::Contact do
         described_class.create_contact(body, overwrite_access_token)
         expect(EasyHubspot::Client).to(
           have_received(:do_post)
-            .with('crm/v3/objects/contacts', body, expected_overwritten_headers_method_output))
+            .with('crm/v3/objects/contacts', body, expected_overwritten_headers_method_output)
+        )
       end
     end
   end
@@ -349,7 +350,8 @@ RSpec.describe EasyHubspot::Contact do
         described_class.delete_contact('example@gmail.com', overwrite_access_token)
         expect(EasyHubspot::Client).to(
           have_received(:do_delete)
-            .with('crm/v3/objects/contacts/example@gmail.com?idProperty=email', expected_overwritten_headers_method_output))
+            .with('crm/v3/objects/contacts/example@gmail.com?idProperty=email', expected_overwritten_headers_method_output)
+        )
       end
     end
   end

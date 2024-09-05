@@ -13,9 +13,9 @@ RSpec.describe EasyHubspot::Base do
 
   describe '#headers' do
     context 'when using the global access_token' do
-      let(:expected_headers) {
-        { "Content-Type" => 'application/json', "Authorization" => "Bearer #{global_access_token}" }
-      }
+      let(:expected_headers) do
+        { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{global_access_token}" }
+      end
 
       it 'returns the expected Authorization Header' do
         expect(described_class.headers).to eq(expected_headers)
@@ -24,9 +24,9 @@ RSpec.describe EasyHubspot::Base do
 
     context 'when overriding the global access_token' do
       let(:custom_access_token) { 'CUSTOM-PER-CALL-ACCESS-TOKEN' }
-      let(:expected_headers) {
-        { "Content-Type" => 'application/json', "Authorization" => "Bearer #{custom_access_token}" }
-      }
+      let(:expected_headers) do
+        { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{custom_access_token}" }
+      end
 
       it 'returns the expected Authorization Header' do
         expect(described_class.headers(custom_access_token)).to eq(expected_headers)
