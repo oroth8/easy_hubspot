@@ -203,18 +203,14 @@ Please refrence the [hubspot docs](https://developers.hubspot.com/docs/api/crm/l
   EasyHubspot::LineItem.delete_line_item(123)
 ```
 
-## Error Handling
+## Multiple Access Tokens
+
+If you need to choose your access token at call time, you can pass the access token as an argument to class methods as 
+follows:
 
 ```ruby
-def call
-  begin
-    EasyHubspot::Contact.create_contact(body)
-  rescue EasyHubspot::HubspotApiError => e
-    # handle error code
-    # e.message = 'Contact already exists. Existing ID: 801'
-    Rails.logger.info(e.message)
-  end
-end
+# Finds the contact using the access token provided at call time instead of the one set during initialization
+EasyHubspot::Contact.get_contact(123, different_access_token)
 ```
 
 ## Development
