@@ -136,7 +136,7 @@ RSpec.describe EasyHubspot::Contact do
       it 'uses the correct access token' do
         described_class.get_contacts(overwrite_access_token)
         expect(EasyHubspot::Client).to have_received(:do_get)
-          .with(request_endpoint, expected_overwritten_headers_method_output)
+                                         .with(request_endpoint, expected_overwritten_headers_method_output)
       end
     end
   end
@@ -436,10 +436,8 @@ RSpec.describe EasyHubspot::Contact do
 
   describe 'update_or_create_contact' do
     context 'when contact is found using contact_id' do
-      let!(:email) { 'amber_becker@quigley.io' }
-      let(:response) { described_class.update_or_create_contact(email, body) }
       let!(:body) do
-        { properties: { email: email, firstname: 'Amber', lastname: 'Quigley', hs_content_membership_status: 'inactive' } }
+        { properties: { email: 'amber_becker@quigley.io', firstname: 'Amber', lastname: 'Quigley', hs_content_membership_status: 'inactive' } }
       end
 
       before do
@@ -469,16 +467,15 @@ RSpec.describe EasyHubspot::Contact do
       end
 
       it 'updates the contact' do
+        response = described_class.update_or_create_contact('amber_becker@quigley.io', body)
         expect(response).to eq JSON.parse load_contact_json('update_or_create_contact'), symbolize_names: true
       end
     end
 
     context "when contact isn't found" do
-      let!(:email) { 'not_found@gmail.com' }
       let!(:body) do
-        { properties: { email: email, firstname: 'Not', lastname: 'Found', hs_content_membership_status: 'active' } }
+        { properties: { email: 'not_found@gmail.com', firstname: 'Not', lastname: 'Found', hs_content_membership_status: 'active' } }
       end
-      let(:response) { described_class.update_or_create_contact(email, body) }
 
       before do
         stub_request(:get, 'https://api.hubapi.com/crm/v3/objects/contacts/not_found@gmail.com?idProperty=email')
@@ -507,6 +504,7 @@ RSpec.describe EasyHubspot::Contact do
       end
 
       it 'creates the contact' do
+        response = described_class.update_or_create_contact('not_found@gmail.com', body)
         expect(response).to eq JSON.parse load_contact_json('update_or_create_post'), symbolize_names: true
       end
     end
