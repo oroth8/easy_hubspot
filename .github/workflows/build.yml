@@ -1,6 +1,6 @@
 name: RSpec with SimpleCov
 on:
-  pull_request:
+  pull_request: _target
   push:
     branches:
       - main
