@@ -136,7 +136,7 @@ RSpec.describe EasyHubspot::Contact do
       it 'uses the correct access token' do
         described_class.get_contacts(overwrite_access_token)
         expect(EasyHubspot::Client).to have_received(:do_get)
-                                         .with(request_endpoint, expected_overwritten_headers_method_output)
+          .with(request_endpoint, expected_overwritten_headers_method_output)
       end
     end
   end
